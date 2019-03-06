@@ -55,28 +55,19 @@ class CControllerSAMLRedirect extends CController
     protected function doAction()
     {
         $config = select_config();
-        $authn = new CSamlAuthnRequest($config);
+        $container = new CSamlContainer($this);
 
-        $authnXml = $authn->toXMLString();
-//        die($authnXml);
-        $msgStr = gzdeflate($authnXml);
-        // $msgStr = gzcompress($authnXml);
-        $msgStr = base64_encode($msgStr);
-        $msgStr = urlencode($msgStr);
+        SAML2\Compat\ContainerSingleton::setContainer($container);
 
-        header('Location: https://login.microsoftonline.com/asd/saml2?SAMLRequest=' . $msgStr);
+        // Set up an AuthnRequest
+        $request = new SAML2\AuthnRequest();
+        $request->setId($container->generateId());
+        $request->setIssuer('https://sp.example.edu');
+        $request->setDestination('https://idp.example.edu');
 
-//        $d = urldecode($msgStr);
-//        $d = base64_decode($d);
-//        $d = gzinflate($d);
+        // Send it off using the HTTP-Redirect binding
+        $binding = new SAML2\HTTPRedirect();
+        $binding->send($request);
 
-        die($d);
-
-        die("" . $msgStr);
-
-        die('did something');
-//        $response = new CControllerResponseData([]);
-//        $response->setTitle(_('Configuration of proxies'));
-//        $this->setResponse($response);
     }
 }
