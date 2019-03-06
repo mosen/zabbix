@@ -2871,6 +2871,24 @@ return [
 				'length' => 32,
 				'default' => '',
 			],
+            'saml_configured' => [
+                'null' => false,
+                'type' => DB::FIELD_TYPE_INT,
+                'length' => 10,
+                'default' => '0',
+            ],
+            'saml_entity_id' => [
+                'null' => false,
+                'type' => DB::FIELD_TYPE_CHAR,
+                'length' => 32,
+                'default' => '',
+            ],
+            'saml_nameid_policy' => [
+                'null' => false,
+                'type' => DB::FIELD_TYPE_CHAR,
+                'length' => 255,
+                'default' => '',
+            ],
 		],
 	],
 	'triggers' => [
