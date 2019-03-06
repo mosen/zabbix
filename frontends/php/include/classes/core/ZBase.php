@@ -18,8 +18,8 @@
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 **/
 
-
-require_once dirname(__FILE__).'/CAutoloader.php';
+require_once dirname(__FILE__).'/../../../vendor/autoload.php';
+// require_once dirname(__FILE__).'/CAutoloader.php';
 
 class ZBase {
 	const EXEC_MODE_DEFAULT = 'default';
@@ -65,7 +65,7 @@ class ZBase {
 	 */
 	protected function init() {
 		$this->rootDir = $this->findRootDir();
-		$this->registerAutoloader();
+		// $this->registerAutoloader();
 
 		// initialize API classes
 		$apiServiceFactory = new CApiServiceFactory();
@@ -180,80 +180,80 @@ class ZBase {
 	/**
 	 * Register autoloader.
 	 */
-	private function registerAutoloader() {
-		$autoloader = new CAutoloader($this->getIncludePaths());
-		$autoloader->register();
-	}
+//	private function registerAutoloader() {
+//		$autoloader = new CAutoloader($this->getIncludePaths());
+//		$autoloader->register();
+//	}
 
 	/**
 	 * An array of directories to add to the autoloader include paths.
 	 *
 	 * @return array
 	 */
-	private function getIncludePaths() {
-		return [
-			$this->rootDir.'/include/classes/core',
-			$this->rootDir.'/include/classes/mvc',
-			$this->rootDir.'/include/classes/api',
-			$this->rootDir.'/include/classes/api/services',
-			$this->rootDir.'/include/classes/api/helpers',
-			$this->rootDir.'/include/classes/api/managers',
-			$this->rootDir.'/include/classes/api/clients',
-			$this->rootDir.'/include/classes/api/wrappers',
-			$this->rootDir.'/include/classes/db',
-			$this->rootDir.'/include/classes/debug',
-			$this->rootDir.'/include/classes/validators',
-			$this->rootDir.'/include/classes/validators/schema',
-			$this->rootDir.'/include/classes/validators/string',
-			$this->rootDir.'/include/classes/validators/object',
-			$this->rootDir.'/include/classes/validators/hostgroup',
-			$this->rootDir.'/include/classes/validators/host',
-			$this->rootDir.'/include/classes/validators/hostprototype',
-			$this->rootDir.'/include/classes/validators/event',
-			$this->rootDir.'/include/classes/export',
-			$this->rootDir.'/include/classes/export/writers',
-			$this->rootDir.'/include/classes/export/elements',
-			$this->rootDir.'/include/classes/graph',
-			$this->rootDir.'/include/classes/graphdraw',
-			$this->rootDir.'/include/classes/import',
-			$this->rootDir.'/include/classes/import/converters',
-			$this->rootDir.'/include/classes/import/importers',
-			$this->rootDir.'/include/classes/import/preprocessors',
-			$this->rootDir.'/include/classes/import/readers',
-			$this->rootDir.'/include/classes/import/validators',
-			$this->rootDir.'/include/classes/items',
-			$this->rootDir.'/include/classes/triggers',
-			$this->rootDir.'/include/classes/server',
-			$this->rootDir.'/include/classes/screens',
-			$this->rootDir.'/include/classes/services',
-			$this->rootDir.'/include/classes/sysmaps',
-			$this->rootDir.'/include/classes/helpers',
-			$this->rootDir.'/include/classes/helpers/trigger',
-			$this->rootDir.'/include/classes/macros',
-			$this->rootDir.'/include/classes/tree',
-			$this->rootDir.'/include/classes/html',
-			$this->rootDir.'/include/classes/html/pageheader',
-			$this->rootDir.'/include/classes/html/svg',
-			$this->rootDir.'/include/classes/html/widget',
-			$this->rootDir.'/include/classes/html/interfaces',
-			$this->rootDir.'/include/classes/parsers',
-			$this->rootDir.'/include/classes/parsers/results',
-			$this->rootDir.'/include/classes/controllers',
-			$this->rootDir.'/include/classes/routing',
-			$this->rootDir.'/include/classes/json',
-			$this->rootDir.'/include/classes/user',
-			$this->rootDir.'/include/classes/setup',
-			$this->rootDir.'/include/classes/regexp',
-			$this->rootDir.'/include/classes/ldap',
-            $this->rootDir.'/include/classes/saml',
-			$this->rootDir.'/include/classes/pagefilter',
-			$this->rootDir.'/include/classes/widgets/fields',
-			$this->rootDir.'/include/classes/widgets/forms',
-			$this->rootDir.'/include/classes/widgets',
-			$this->rootDir.'/local/app/controllers',
-			$this->rootDir.'/app/controllers'
-		];
-	}
+//	private function getIncludePaths() {
+//		return [
+//			$this->rootDir.'/include/classes/core',
+//			$this->rootDir.'/include/classes/mvc',
+//			$this->rootDir.'/include/classes/api',
+//			$this->rootDir.'/include/classes/api/services',
+//			$this->rootDir.'/include/classes/api/helpers',
+//			$this->rootDir.'/include/classes/api/managers',
+//			$this->rootDir.'/include/classes/api/clients',
+//			$this->rootDir.'/include/classes/api/wrappers',
+//			$this->rootDir.'/include/classes/db',
+//			$this->rootDir.'/include/classes/debug',
+//			$this->rootDir.'/include/classes/validators',
+//			$this->rootDir.'/include/classes/validators/schema',
+//			$this->rootDir.'/include/classes/validators/string',
+//			$this->rootDir.'/include/classes/validators/object',
+//			$this->rootDir.'/include/classes/validators/hostgroup',
+//			$this->rootDir.'/include/classes/validators/host',
+//			$this->rootDir.'/include/classes/validators/hostprototype',
+//			$this->rootDir.'/include/classes/validators/event',
+//			$this->rootDir.'/include/classes/export',
+//			$this->rootDir.'/include/classes/export/writers',
+//			$this->rootDir.'/include/classes/export/elements',
+//			$this->rootDir.'/include/classes/graph',
+//			$this->rootDir.'/include/classes/graphdraw',
+//			$this->rootDir.'/include/classes/import',
+//			$this->rootDir.'/include/classes/import/converters',
+//			$this->rootDir.'/include/classes/import/importers',
+//			$this->rootDir.'/include/classes/import/preprocessors',
+//			$this->rootDir.'/include/classes/import/readers',
+//			$this->rootDir.'/include/classes/import/validators',
+//			$this->rootDir.'/include/classes/items',
+//			$this->rootDir.'/include/classes/triggers',
+//			$this->rootDir.'/include/classes/server',
+//			$this->rootDir.'/include/classes/screens',
+//			$this->rootDir.'/include/classes/services',
+//			$this->rootDir.'/include/classes/sysmaps',
+//			$this->rootDir.'/include/classes/helpers',
+//			$this->rootDir.'/include/classes/helpers/trigger',
+//			$this->rootDir.'/include/classes/macros',
+//			$this->rootDir.'/include/classes/tree',
+//			$this->rootDir.'/include/classes/html',
+//			$this->rootDir.'/include/classes/html/pageheader',
+//			$this->rootDir.'/include/classes/html/svg',
+//			$this->rootDir.'/include/classes/html/widget',
+//			$this->rootDir.'/include/classes/html/interfaces',
+//			$this->rootDir.'/include/classes/parsers',
+//			$this->rootDir.'/include/classes/parsers/results',
+//			$this->rootDir.'/include/classes/controllers',
+//			$this->rootDir.'/include/classes/routing',
+//			$this->rootDir.'/include/classes/json',
+//			$this->rootDir.'/include/classes/user',
+//			$this->rootDir.'/include/classes/setup',
+//			$this->rootDir.'/include/classes/regexp',
+//			$this->rootDir.'/include/classes/ldap',
+//            $this->rootDir.'/include/classes/saml',
+//			$this->rootDir.'/include/classes/pagefilter',
+//			$this->rootDir.'/include/classes/widgets/fields',
+//			$this->rootDir.'/include/classes/widgets/forms',
+//			$this->rootDir.'/include/classes/widgets',
+//			$this->rootDir.'/local/app/controllers',
+//			$this->rootDir.'/app/controllers'
+//		];
+//	}
 
 	/**
 	 * An array of available themes.
