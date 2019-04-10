@@ -617,6 +617,9 @@ FIELD		|saml_configured		|t_integer		|'0'	|NOT NULL	|ZBX_NODATA
 FIELD		|saml_entity_id	|t_varchar(255)	|''	|NOT NULL	|ZBX_NODATA
 FIELD		|saml_nameid_policy	|t_varchar(255)	|''	|NOT NULL	|ZBX_NODATA
 FIELD		|saml_group_attribute	|t_varchar(255)	|''	|NOT NULL	|ZBX_NODATA
+FIELD		|saml_sso_bind_redirect	|t_varchar(255) |'' |NULL	|ZBX_NODATA
+FIELD		|saml_sso_bind_post	|t_varchar(255) |'' |NULL	|ZBX_NODATA
+FIELD		|saml_slo_bind_redirect	|t_varchar(255)	|''	|NULL	|ZBX_NODATA
 INDEX		|1		|alert_usrgrpid
 INDEX		|2		|discovery_groupid
 

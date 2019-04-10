@@ -43,7 +43,8 @@ $http_tab = (new CFormList('list_http'))
 	->addRow(new CLabel(_('Default login form'), 'http_login_form'),
 		(new CComboBox('http_login_form', $data['http_login_form'], null, [
 			ZBX_AUTH_FORM_ZABBIX => _('Zabbix login form'),
-			ZBX_AUTH_FORM_HTTP => _('HTTP login form')
+			ZBX_AUTH_FORM_HTTP => _('HTTP login form'),
+//            ZBX_AUTH_FORM_SAML => _('SAML login form'),
 		]))->setEnabled($data['http_auth_enabled'] == ZBX_AUTH_HTTP_ENABLED)
 	)
 	->addRow(new CLabel(_('Remove domain name'), 'http_strip_domains'),
@@ -134,18 +135,11 @@ $ldap_tab = (new CFormList('list_ldap'))
 			->setAriaRequired()
 );
 
-$saml_tab = (new CFormList('list_saml'))
+$saml_tab = [(new CFormList('list_saml'))
     ->addRow(new CLabel(_('Enable SAML authentication'), 'saml_configured'),
         (new CCheckBox('saml_configured', ZBX_AUTH_SAML_ENABLED))
             ->setChecked($data['saml_configured'] == ZBX_AUTH_SAML_ENABLED)
             ->setUncheckedValue(ZBX_AUTH_SAML_DISABLED))
-    ->addRow(new CLabel(_('SAML IdP Metadata File'), 'saml_metadata_file'),
-        (new CFile('saml_metadata_file'))
-            ->setEnabled($data['saml_enabled'])
-            ->setAriaRequired()
-    )
-    ->addRow(new CLabel(_(''), 'saml_idp_metadata_import'),
-        (new CButton('saml_idp_metadata_import', 'Import')))
     ->addRow(new CLabel(_('Zabbix Entity ID'), 'saml_entity_id'),
         (new CTextBox('saml_entity_id', $data['saml_entity_id']))
             ->setEnabled($data['saml_enabled'])
@@ -174,11 +168,18 @@ $saml_tab = (new CFormList('list_saml'))
     ->addRow(new CLabel(_('Download SAML SP Metadata'), 'saml_sp_metadata_download'),
         (new CButton('saml_sp_metadata_download', 'Download'))
             ->setEnabled($data['saml_enabled'])
-    );
+    ), (new CFormList('saml_idp_metadata'))
+        ->addRow(new CLabel(_('SAML IdP Metadata File'), 'saml_idp_metadata_file'),
+            (new CFile('saml_idp_metadata_file'))
+                ->setEnabled($data['saml_enabled'])
+                ->setAriaRequired()
+        )
+        ->addRow(new CSubmit('saml_idp_metadata_import', _('Import'))
+    )];
 
 (new CWidget())
 	->setTitle(_('Authentication'))
-	->addItem((new CForm())
+	->addItem((new CForm('post', null, 'multipart/form-data'))
 		->addVar('action', $data['action_submit'])
 		->addVar('db_authentication_type', $data['db_authentication_type'])
 		->setName('form_auth')

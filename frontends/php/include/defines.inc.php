@@ -124,6 +124,7 @@ define('ZBX_AUTH_SAML_DISABLED',    0);
 define('ZBX_AUTH_SAML_ENABLED',     1);
 define('ZBX_AUTH_FORM_ZABBIX',	0);
 define('ZBX_AUTH_FORM_HTTP',	1);
+define('ZBX_AUTH_FORM_SAML',    2);
 define('ZBX_AUTH_CASE_INSENSITIVE',	0);
 define('ZBX_AUTH_CASE_SENSITIVE',	1);
 

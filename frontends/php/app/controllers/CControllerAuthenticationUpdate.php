@@ -187,6 +187,23 @@ class CControllerAuthenticationUpdate extends CController {
 			return;
 		}
 
+        if (isset($_FILES['saml_idp_metadata_file'])) {
+            $file = new CUploadFile($_FILES['saml_idp_metadata_file']);
+
+            $idp_meta = null;
+            if ($file->wasUploaded()) {
+                $idp_meta = $file->getContent();
+
+                // important bits:
+                // x.509 cert
+                // location of HTTP redirect binding
+                // location of HTTP post binding
+                $doc = SAML2\DOMDocumentFactory::fromString($idpmeta);
+                $sso_bindings = $doc->getElementsByTagName('SingleSignOnService');
+                $slo_bindings = $doc->getElementsByTagName('SingleLogoutService');
+            }
+        }
+
 		$config = select_config();
 		$fields = [
 			'authentication_type' => ZBX_AUTH_INTERNAL,
