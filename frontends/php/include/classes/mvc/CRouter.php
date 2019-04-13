@@ -95,6 +95,7 @@ class CRouter {
 		'report.services'				=> ['CControllerReportServices',			'layout.htmlpage',		'report.services'],
 		'report.status'					=> ['CControllerReportStatus',				'layout.htmlpage',		'report.status'],
         'saml.redirect'                 => ['CControllerSAMLRedirect',              'layout.htmlpage',      'saml.redirect.view'],
+        'saml.assertion'                => ['CControllerSAMLAssertion',             'layout.htmlpage',      'saml.assertion.view'],
         'saml.spmetadata'               => ['CControllerSAMLMetadata',              'layout.xml',           null],
 		'script.create'					=> ['CControllerScriptCreate',				null,					null],
 		'script.delete'					=> ['CControllerScriptDelete',				null,					null],

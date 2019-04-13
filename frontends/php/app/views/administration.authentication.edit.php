@@ -151,6 +151,7 @@ $saml_tab = (new CFormList('list_saml'))
             ->setEnabled($data['saml_enabled'])
             ->setWidth(ZBX_TEXTAREA_STANDARD_WIDTH)
             ->setAriaRequired()
+            ->setAttribute('placeholder', 'https://zabbix.test/zabbix/')
     )
     ->addRow(new CLabel(_('SAML Group Attribute'), 'saml_group_attribute'),
         (new CTextBox('saml_group_attribute', $data['saml_group_attribute']))

@@ -52,6 +52,7 @@ class CControllerAuthenticationEdit extends CController {
             'http_strip_domains' => 'db config.http_strip_domains',
             'saml_configured' => 'in '.ZBX_AUTH_SAML_DISABLED.','.ZBX_AUTH_SAML_ENABLED,
             'saml_entity_id' => 'db config.saml_entity_id',
+            'saml_group_attribute' => 'db config.saml_group_attribute',
         ];
 
         $ret = $this->validateInput($fields);
@@ -109,7 +110,8 @@ class CControllerAuthenticationEdit extends CController {
                 'http_strip_domains',
                 'saml_configured',
                 'saml_entity_id',
-			]);
+                'saml_group_attribute',
+            ]);
 
             $data += select_config();
         }

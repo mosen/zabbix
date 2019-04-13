@@ -2889,6 +2889,12 @@ return [
                 'length' => 255,
                 'default' => '',
             ],
+            'saml_group_attribute' => [
+                'null' => false,
+                'type' => DB::FIELD_TYPE_CHAR,
+                'length' => 255,
+                'default' => '',
+            ],
 		],
 	],
 	'triggers' => [
