@@ -66,6 +66,12 @@ the "Save" or "Add" button on the parent object.
 
 This basically catches everyone, even seasoned users of Zabbix. I would call this out as an obvious UX flaw.
 
+### (TODO) People often use multiple browser tabs to keep their place ###
+
+This behaviour is indicative of not being able to refer to critical information from one dialog to another, maybe coupled
+with the inability to navigate between sections easily (especially in the case of an item nested within eg. triggers
+and discovery).
+
 ## Structural Changes ##
 
 - `include/classes/core/ZBase.php`: Introduced composer autoloader going forward to replace the **CAutoLoader** class.
