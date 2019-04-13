@@ -1,0 +1,10 @@
+{
+  "name": "zabbix-frontend",
+  "version": "4.4.0alpha4-extended",
+  "description": "Zabbix Frontend Extended",
+  "main": "index.js",
+  "repository": "https://github.com/mosen/zabbix",
+  "author": "Mosen",
+  "license": "GPLv2",
+  "private": true
+}
