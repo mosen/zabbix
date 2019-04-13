@@ -94,6 +94,8 @@ class CRouter {
 		'proxy.update'					=> ['CControllerProxyUpdate',				null,					null],
 		'report.services'				=> ['CControllerReportServices',			'layout.htmlpage',		'report.services'],
 		'report.status'					=> ['CControllerReportStatus',				'layout.htmlpage',		'report.status'],
+        'saml.redirect'                 => ['CControllerSAMLRedirect',              'layout.htmlpage',      'saml.redirect.view'],
+        'saml.spmetadata'               => ['CControllerSAMLMetadata',              'layout.xml',           null],
 		'script.create'					=> ['CControllerScriptCreate',				null,					null],
 		'script.delete'					=> ['CControllerScriptDelete',				null,					null],
 		'script.edit'					=> ['CControllerScriptEdit',				'layout.htmlpage',		'administration.script.edit'],

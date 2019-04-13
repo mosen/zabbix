@@ -55,7 +55,9 @@ class CControllerAuthenticationUpdate extends CController {
 			'ldap_bind_password' => 'db config.ldap_bind_password',
 			'http_auth_enabled' => 'in '.ZBX_AUTH_HTTP_DISABLED.','.ZBX_AUTH_HTTP_ENABLED,
 			'http_login_form' => 'in '.ZBX_AUTH_FORM_ZABBIX.','.ZBX_AUTH_FORM_HTTP,
-			'http_strip_domains' => 'db config.http_strip_domains'
+			'http_strip_domains' => 'db config.http_strip_domains',
+            'saml_configured' => 'in '.ZBX_AUTH_SAML_DISABLED.','.ZBX_AUTH_SAML_ENABLED,
+            'saml_entity_id' => 'db config.saml_entity_id',
 		];
 
 		$ret = $this->validateInput($fields);
@@ -189,7 +191,8 @@ class CControllerAuthenticationUpdate extends CController {
 		$fields = [
 			'authentication_type' => ZBX_AUTH_INTERNAL,
 			'ldap_configured' => ZBX_AUTH_LDAP_DISABLED,
-			'http_auth_enabled' => ZBX_AUTH_HTTP_DISABLED
+			'http_auth_enabled' => ZBX_AUTH_HTTP_DISABLED,
+            'saml_configured' => ZBX_AUTH_SAML_DISABLED
 		];
 
 		if ($this->getInput('http_auth_enabled', ZBX_AUTH_HTTP_DISABLED) == ZBX_AUTH_HTTP_ENABLED) {

@@ -28,6 +28,7 @@ $auth_tab = (new CFormList('list_auth'))
 			->setAttribute('autofocus', 'autofocus')
 			->addValue(_x('Internal', 'authentication'), ZBX_AUTH_INTERNAL)
 			->addValue(_('LDAP'), ZBX_AUTH_LDAP)
+            ->addValue(_('SAML'), ZBX_AUTH_SAML)
 			->setModern(true)
 			->removeId()
 	);
@@ -133,6 +134,47 @@ $ldap_tab = (new CFormList('list_ldap'))
 			->setAriaRequired()
 );
 
+$saml_tab = (new CFormList('list_saml'))
+    ->addRow(new CLabel(_('Enable SAML authentication'), 'saml_configured'),
+        (new CCheckBox('saml_configured', ZBX_AUTH_SAML_ENABLED))
+            ->setChecked($data['saml_configured'] == ZBX_AUTH_SAML_ENABLED)
+            ->setUncheckedValue(ZBX_AUTH_SAML_DISABLED))
+    ->addRow(new CLabel(_('SAML IdP Metadata File'), 'saml_metadata_file'),
+        (new CFile('saml_metadata_file'))
+            ->setEnabled($data['saml_enabled'])
+            ->setAriaRequired()
+    )
+    ->addRow(new CLabel(_(''), 'saml_idp_metadata_import'),
+        (new CButton('saml_idp_metadata_import', 'Import')))
+    ->addRow(new CLabel(_('Zabbix Entity ID'), 'saml_entity_id'),
+        (new CTextBox('saml_entity_id', $data['saml_entity_id']))
+            ->setEnabled($data['saml_enabled'])
+            ->setWidth(ZBX_TEXTAREA_STANDARD_WIDTH)
+            ->setAriaRequired()
+    )
+    ->addRow(new CLabel(_('SAML Group Attribute'), 'saml_group_attribute'),
+        (new CTextBox('saml_group_attribute', $data['saml_group_attribute']))
+            ->setEnabled($data['saml_enabled'])
+            ->setWidth(ZBX_TEXTAREA_STANDARD_WIDTH)
+            ->setAriaRequired()
+        )
+    ->addRow(new CLabel(_('NameID Policy'), 'saml_nameid_policy'),
+        (new CRadioButtonList('saml_nameid_policy', $data['saml_nameid_policy']))
+            ->addValue(_('Unspecified'), ZBX_SAML_NAMEID_UNSPECIFIED)
+            ->addValue(_('E-mail Address'), ZBX_SAML_NAMEID_EMAILADDRESS)
+            ->addValue(_('X.509 Subject'), ZBX_SAML_NAMEID_X509SUBJECT)
+            ->addValue(_('Windows Domain'), ZBX_SAML_NAMEID_WINDOWS)
+            ->addValue(_('Provider'), ZBX_SAML_NAMEID_PROVIDER)
+            ->addValue(_('Federated'), ZBX_SAML_NAMEID_FEDERATED)
+            ->addValue(_('Transient'), ZBX_SAML_NAMEID_TRANSIENT)
+            ->setModern(true)
+            ->removeId()
+    )
+    ->addRow(new CLabel(_('Download SAML SP Metadata'), 'saml_sp_metadata_download'),
+        (new CButton('saml_sp_metadata_download', 'Download'))
+            ->setEnabled($data['saml_enabled'])
+    );
+
 (new CWidget())
 	->setTitle(_('Authentication'))
 	->addItem((new CForm())
@@ -146,6 +188,7 @@ $ldap_tab = (new CFormList('list_ldap'))
 			->addTab('auth', _('Authentication'), $auth_tab)
 			->addTab('http', _('HTTP settings'), $http_tab)
 			->addTab('ldap', _('LDAP settings'), $ldap_tab)
+            ->addTab('saml', _('SAML settings'), $saml_tab)
 			->setFooter(makeFormFooter(
 				(new CSubmit('update', _('Update'))),
 				[(new CSubmitButton(_('Test'), 'ldap_test', 1))

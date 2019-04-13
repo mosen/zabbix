@@ -21,67 +21,70 @@
 
 class CControllerAuthenticationEdit extends CController {
 
-	protected function init() {
-		$this->disableSIDValidation();
-	}
+    protected function init() {
+        $this->disableSIDValidation();
+    }
 
-	/**
-	 * Validate user input.
-	 *
-	 * @return bool
-	 */
-	protected function checkInput() {
-		$fields = [
-			'form_refresh' => 'string',
-			'ldap_test_user' => 'string',
-			'ldap_test_password' => 'string',
-			'change_bind_password' => 'in 0,1',
-			'db_authentication_type' => 'string',
-			'authentication_type' => 'in '.ZBX_AUTH_INTERNAL.','.ZBX_AUTH_LDAP,
-			'http_case_sensitive' => 'in '.ZBX_AUTH_CASE_INSENSITIVE.','.ZBX_AUTH_CASE_SENSITIVE,
-			'ldap_case_sensitive' => 'in '.ZBX_AUTH_CASE_INSENSITIVE.','.ZBX_AUTH_CASE_SENSITIVE,
-			'ldap_configured' => 'in '.ZBX_AUTH_LDAP_DISABLED.','.ZBX_AUTH_LDAP_ENABLED,
-			'ldap_host' => 'db config.ldap_host',
-			'ldap_port' => 'int32',
-			'ldap_base_dn' => 'db config.ldap_base_dn',
-			'ldap_bind_dn' => 'db config.ldap_bind_dn',
-			'ldap_search_attribute' => 'db config.ldap_search_attribute',
-			'ldap_bind_password' => 'db config.ldap_bind_password',
-			'http_auth_enabled' => 'in '.ZBX_AUTH_HTTP_DISABLED.','.ZBX_AUTH_HTTP_ENABLED,
-			'http_login_form' => 'in '.ZBX_AUTH_FORM_ZABBIX.','.ZBX_AUTH_FORM_HTTP,
-			'http_strip_domains' => 'db config.http_strip_domains'
-		];
+    /**
+     * Validate user input.
+     *
+     * @return bool
+     */
+    protected function checkInput() {
+        $fields = [
+            'form_refresh' => 'string',
+            'ldap_test_user' => 'string',
+            'ldap_test_password' => 'string',
+            'change_bind_password' => 'in 0,1',
+            'db_authentication_type' => 'string',
+            'authentication_type' => 'in '.ZBX_AUTH_INTERNAL.','.ZBX_AUTH_LDAP,
+            'http_case_sensitive' => 'in '.ZBX_AUTH_CASE_INSENSITIVE.','.ZBX_AUTH_CASE_SENSITIVE,
+            'ldap_case_sensitive' => 'in '.ZBX_AUTH_CASE_INSENSITIVE.','.ZBX_AUTH_CASE_SENSITIVE,
+            'ldap_configured' => 'in '.ZBX_AUTH_LDAP_DISABLED.','.ZBX_AUTH_LDAP_ENABLED,
+            'ldap_host' => 'db config.ldap_host',
+            'ldap_port' => 'int32',
+            'ldap_base_dn' => 'db config.ldap_base_dn',
+            'ldap_bind_dn' => 'db config.ldap_bind_dn',
+            'ldap_search_attribute' => 'db config.ldap_search_attribute',
+            'ldap_bind_password' => 'db config.ldap_bind_password',
+            'http_auth_enabled' => 'in '.ZBX_AUTH_HTTP_DISABLED.','.ZBX_AUTH_HTTP_ENABLED,
+            'http_login_form' => 'in '.ZBX_AUTH_FORM_ZABBIX.','.ZBX_AUTH_FORM_HTTP,
+            'http_strip_domains' => 'db config.http_strip_domains',
+            'saml_configured' => 'in '.ZBX_AUTH_SAML_DISABLED.','.ZBX_AUTH_SAML_ENABLED,
+            'saml_entity_id' => 'db config.saml_entity_id',
+        ];
 
-		$ret = $this->validateInput($fields);
+        $ret = $this->validateInput($fields);
 
-		if (!$ret) {
-			$this->setResponse(new CControllerResponseFatal());
-		}
+        if (!$ret) {
+            $this->setResponse(new CControllerResponseFatal());
+        }
 
-		return $ret;
-	}
+        return $ret;
+    }
 
-	/**
-	 * Validate is user allowed to change configuration.
-	 *
-	 * @return bool
-	 */
-	protected function checkPermissions() {
-		return $this->getUserType() == USER_TYPE_SUPER_ADMIN;
-	}
+    /**
+     * Validate is user allowed to change configuration.
+     *
+     * @return bool
+     */
+    protected function checkPermissions() {
+        return $this->getUserType() == USER_TYPE_SUPER_ADMIN;
+    }
 
-	protected function doAction() {
-		$ldap_status = (new CFrontendSetup())->checkPhpLdapModule();
+    protected function doAction() {
+        $ldap_status = (new CFrontendSetup())->checkPhpLdapModule();
 
-		$data = [
-			'action_submit' => 'authentication.update',
-			'action_passw_change' => 'authentication.edit',
-			'ldap_error' => ($ldap_status['result'] == CFrontendSetup::CHECK_OK) ? '' : $ldap_status['error'],
-			'ldap_test_password' => '',
-			'ldap_test_user' => CWebUser::$data['alias'],
-			'change_bind_password' => 0,
-			'form_refresh' => 0
-		];
+        $data = [
+            'action_submit' => 'authentication.update',
+            'action_passw_change' => 'authentication.edit',
+            'ldap_error' => ($ldap_status['result'] == CFrontendSetup::CHECK_OK) ? '' : $ldap_status['error'],
+            'ldap_test_password' => '',
+            'ldap_test_user' => CWebUser::$data['alias'],
+            'change_bind_password' => 0,
+            'form_refresh' => 0,
+            'saml_error' => '',
+        ];
 
 		if ($this->hasInput('form_refresh')) {
 			$data['ldap_bind_password'] = '';
@@ -103,22 +106,25 @@ class CControllerAuthenticationEdit extends CController {
 				'ldap_test_password',
 				'http_auth_enabled',
 				'http_login_form',
-				'http_strip_domains'
+                'http_strip_domains',
+                'saml_configured',
+                'saml_entity_id',
 			]);
 
-			$data += select_config();
-		}
-		else {
-			$data += select_config();
-			$data['db_authentication_type'] = $data['authentication_type'];
-			$data['change_bind_password'] = ($data['ldap_bind_password'] === '') ? 1 : 0;
-		}
+            $data += select_config();
+        }
+        else {
+            $data += select_config();
+            $data['db_authentication_type'] = $data['authentication_type'];
+            $data['change_bind_password'] = ($data['ldap_bind_password'] === '') ? 1 : 0;
+        }
 
-		$data['ldap_enabled'] = ($ldap_status['result'] == CFrontendSetup::CHECK_OK
-				&& $data['ldap_configured'] == ZBX_AUTH_LDAP_ENABLED);
+        $data['ldap_enabled'] = ($ldap_status['result'] == CFrontendSetup::CHECK_OK
+            && $data['ldap_configured'] == ZBX_AUTH_LDAP_ENABLED);
+        $data['saml_enabled'] = $data['saml_configured'] == ZBX_AUTH_SAML_ENABLED;
 
-		$response = new CControllerResponseData($data);
-		$response->setTitle(_('Configuration of authentication'));
-		$this->setResponse($response);
-	}
+        $response = new CControllerResponseData($data);
+        $response->setTitle(_('Configuration of authentication'));
+        $this->setResponse($response);
+    }
 }

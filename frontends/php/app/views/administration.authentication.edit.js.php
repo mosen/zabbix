@@ -14,10 +14,16 @@
 			return proceed;
 		});
 
-		form.find('#http_auth_enabled,#ldap_configured').change(function () {
-			var fields = $(this).is('#http_auth_enabled')
-				? form.find('[name^=http_]')
-				: form.find('[name^=ldap_],button[name=change_bind_password]');
+		form.find('#http_auth_enabled,#ldap_configured,#saml_configured').change(function () {
+			var fields;
+
+			if ($(this).is('#http_auth_enabled')) {
+			  fields = form.find('[name^=http_]');
+      } else if ($(this).is('#ldap_configured')) {
+			  fields = form.find('[name^=ldap_],button[name=change_bind_password]');
+      } else if ($(this).is('#saml_configured')) {
+			  fields = form.find('[name^=saml_]');
+      }
 
 			fields
 				.not('[name=http_auth_enabled],[name=ldap_configured]')
