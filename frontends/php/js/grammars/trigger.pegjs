@@ -14,41 +14,68 @@ predicate
   }
 
 operand
-  = trigger:trigger_expr
+  = trigger:evaluated_expression
   / constant:const_expr
 
+evaluated_expression
+  = open_brace expression close_brace
+
+expression
+  = trigger_expr
+  / user_macro
+  / lld_macro
+  / builtin_macro
+
 trigger_expr
-  = "{" server:server? item "}"
-  / "{" item "}"
+  = server:server? item
+  / item
 
 server
-  = name:[^:]+ ":" { return name.join("") }
+  = name:[a-zA-Z0-9-\.]+ ":" { return name.join("") }
 
-key
-  = key_name:key_string i_args:item_parameters? f_args:function_parameters? {
-      console.log(i_args);
-      
-      return {
-          name: key_name,
-          i_args: i_args,
-          f_args: f_args
-      }
+item
+  = name:key_string iargs:item_parameters? period? fname:key_element? fargs:function_parameters? {
+    return {
+      key: name,
+      keyArgs: iargs,
+      func: fname,
+      funcArgs: fargs,
+    };
   }
 
 
-item
-  = key:key "."? func:function?
-
-
 key_string
-  = name:[0-9a-zA-Z_.-]+ { return name.join("") }
+  = key_fragment*
+
+key_fragment
+  = key_element period?
 // https://www.zabbix.com/documentation/4.0/manual/config/items/item/key
 
+key_element
+  = s:[0-9a-zA-Z_-]+ { return s.join("") }
+
+period
+  = "."
+
 item_parameters
-  = "[" parameter * "]"
+  = open_bracket parameter* close_bracket
+
+open_bracket
+  = "["
+
+close_bracket
+  = "]"
 
 function_parameters
-  = "(" parameter * ")"
+  = open_paren args:parameter* close_paren {
+    return args;
+  }
+
+open_paren
+  = "("
+
+close_paren
+  = ")"
 
 // TODO: array of sub parameters
 parameter
@@ -61,16 +88,12 @@ quoted_string
 string
   = unquoted_string 
   / quoted_string
-  / macro
 
 unquoted_string
   = chars:[a-zA-Z0-9/]+ {
       return chars.join("");
   }
 
-operator
-  = '-' / 'not' / '*' / '/' / '+' / '-' / '<' / '<=' /
-    '>' / '>=' / '=' / '<>' / 'and' / 'or'
 
 
 function
@@ -85,11 +108,6 @@ function
       }
   }
 
-macro
-  = user_macro
-  / builtin_macro
-  / lld_macro
-
 regex_macro
   = "@" name:[a-zA-Z]+ {
       return {
@@ -100,61 +118,103 @@ regex_macro
   }
 
 user_macro
-  = "{" "$" name:[A-Z.]+ "}" {
+  = "$" [A-Z.]+ {
       return {
           type: "MACRO",
           macro_type: "USER",
-          name: name
+          name: text()
       }
   }
 
 builtin_macro
-  = "{" name:[A-Z.]+ "}" {
+  = [A-Z.]+ {
       return {
           type: "MACRO",
           macro_type: "BUILTIN",
-          name: name
+          name: text()
       }
   }
 
 lld_macro
-  = "{" "#" name:[A-Z.]+ "}" {
+  = "#" [A-Z.]+ {
       return {
           type: "MACRO",
           macro_type: "LLD",
-          name: name
+          name: text()
       }
   }
+
+operator
+  = '-' / 'not' / '*' / '/' / '+' / '-' / '<' / '<=' /
+    '>' / '>=' / '=' / '<>' / 'and' / 'or'
+
+comparison_operator
+  = '<' / '<=' / '>' / '>=' / '=' / '<>'
+
+logical_operator
+  = 'and' / 'or' / 'not'
+
+open_brace
+  = "{"
+
+close_brace
+  = "}"
 
 const_expr
   = v:byte_expr
   / time_expr
-  / num
+  / number
 
 byte_expr
-  = value:num unit:"K" { return { type: "BYTES", unit: unit, value: value }}
-  / value:num unit:"M" { return { type: "BYTES", unit: unit, value: value }}
-  / value:num unit:"G" { return { type: "BYTES", unit: unit, value: value }}
-  / value:num unit:"T" { return { type: "BYTES", unit: unit, value: value }}
+  = value:number byte_unit:byte_unit
+
+byte_unit
+  = "K"
+  / "M"
+  / "G"
+  / "T"
 
 time_expr
-  = value:num unit:"s"
-  / value:num unit:"m"
-  / value:num unit:"h"
-  / value:num unit:"d"
-  / value:num unit:"w" {
-    return {
-        type: "TIME",
-        value: value,
-        unit: unit,
-        seconds: 0
-    }
-  }
+  = value:number time_unit:time_unit
 
-num
-  = [+-]? ([0-9]* "." [0-9]+ / [0-9]+) ("e" [+-]? [0-9]+)? {
-      return parseFloat(text());
-    }
+time_unit
+  = "s"
+  / "m"
+  / "h"
+  / "d"
+  / "w"
+
+// ----- 6. Numbers ----- stolen from json example
+
+number "number"
+  = minus? int frac? { return parseFloat(text()); }
+
+decimal_point
+  = "."
+
+digit1_9
+  = [1-9]
+
+frac
+  = decimal_point DIGIT+
+
+int
+  = zero / (digit1_9 DIGIT*)
+
+minus
+  = "-"
+
+plus
+  = "+"
+
+zero
+  = "0"
 
 whitespace
   = [ \t\r\n\f]+
+
+// ----- Core ABNF Rules -----
+
+// See RFC 4234, Appendix B (http://tools.ietf.org/html/rfc4234).
+DIGIT  = [0-9]
+HEXDIG = [0-9a-f]i

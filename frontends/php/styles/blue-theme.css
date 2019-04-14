@@ -4761,8 +4761,8 @@ ul.checkbox-list.col-3 > li {
     border-radius: 50%;
     background: #0275b8; }
   .range-control.range-control-focus .range-control-thumb {
-    margin-top: -6.66667px;
-    margin-left: -6.66667px;
+    margin-top: -6.6666666667px;
+    margin-left: -6.6666666667px;
     background: #0275b8;
     border: 2px solid #0395ea; }
   .range-control.range-control-focus .range-control-progress {
@@ -4818,3 +4818,33 @@ table.preprocessing-test-results .rel-container {
 
 #preprocessing-test-form .table-forms-separator {
   margin-top: -2px; }
+
+.zfe-code-editor {
+  min-height: 4rem;
+  font-family: 'Monaco', monospace;
+  background-color: #fff;
+  border: 1px solid #acbbc2; }
+
+.zfe-search-suggest {
+  background-color: #768d99;
+  margin-top: 1.4em;
+  /* this is partially a guess as 1em sits right on the baseline but we need to be a bit further down */ }
+  .zfe-search-suggest li {
+    color: white; }
+  .zfe-search-suggest .title {
+    font-weight: bold; }
+  .zfe-search-suggest .subtitle {
+    display: block; }
+  .zfe-search-suggest .comment {
+    display: block;
+    font-style: italic;
+    font-size: 80%; }
+  .zfe-search-suggest .args {
+    font-style: italic;
+    font-weight: normal;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0;
+    padding: 0; }
+    .zfe-search-suggest .args li {
+      display: inline-block; }

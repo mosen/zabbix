@@ -1,0 +1,44 @@
+.zfe-code-editor {
+  min-height: 4rem;
+  font-family: 'Monaco', monospace;
+  background-color: $form-bg-color;
+  border: 1px solid $form-border-color;
+}
+
+.zfe-search-suggest {
+
+  background-color: $font-alt-color;
+  margin-top: 1.4em; /* this is partially a guess as 1em sits right on the baseline but we need to be a bit further down */
+  //font-family: 'Monaco', monospace;
+
+  li {
+    color: white;
+  }
+
+  .title {
+    font-weight: bold;
+  }
+
+  .subtitle {
+    display: block;
+  }
+
+  .comment {
+    display: block;
+    font-style: italic;
+    font-size: 80%;
+  }
+
+  .args {
+    font-style: italic;
+    font-weight: normal;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline-block;
+    }
+  }
+}

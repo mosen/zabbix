@@ -40,6 +40,11 @@
 					&& correlation_mode == <?= ZBX_TRIGGER_CORRELATION_TAG ?>
 				);
 		}
+
+    // ZFE: Trigger Expression Parsing
+		var editor = window.editor = $('#trigger-editor').zfecode({
+      suggestions: window.suggestions  // From zabbix-default-items.js
+    });
 	});
 
 	/**

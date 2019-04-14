@@ -27,7 +27,7 @@ require_once dirname(__FILE__).'/include/forms.inc.php';
 
 $page['title'] = _('Configuration of triggers');
 $page['file'] = 'triggers.php';
-$page['scripts'] = ['multiselect.js'];
+$page['scripts'] = ['multiselect.js', 'zabbix-default-items.js', 'class.zfecodeeditor.js', 'zfe-tracer.js', 'trigger.js'];
 
 require_once dirname(__FILE__).'/include/page_header.php';
 

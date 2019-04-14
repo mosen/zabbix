@@ -115,26 +115,14 @@ define('ZBX_FONT_NAME', 'DejaVuSans');
 
 define('ZBX_AUTH_INTERNAL',	0);
 define('ZBX_AUTH_LDAP',		1);
-define('ZBX_AUTH_SAML',     2);
 define('ZBX_AUTH_HTTP_DISABLED',	0);
 define('ZBX_AUTH_HTTP_ENABLED',		1);
 define('ZBX_AUTH_LDAP_DISABLED',	0);
 define('ZBX_AUTH_LDAP_ENABLED',		1);
-define('ZBX_AUTH_SAML_DISABLED',    0);
-define('ZBX_AUTH_SAML_ENABLED',     1);
 define('ZBX_AUTH_FORM_ZABBIX',	0);
 define('ZBX_AUTH_FORM_HTTP',	1);
-define('ZBX_AUTH_FORM_SAML',    2);
 define('ZBX_AUTH_CASE_INSENSITIVE',	0);
 define('ZBX_AUTH_CASE_SENSITIVE',	1);
-
-define('ZBX_SAML_NAMEID_UNSPECIFIED',  'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified');
-define('ZBX_SAML_NAMEID_EMAILADDRESS', 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress');
-define('ZBX_SAML_NAMEID_X509SUBJECT',  'urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName');
-define('ZBX_SAML_NAMEID_WINDOWS',      'urn:oasis:names:tc:SAML:1.1:nameid-format:WindowsDomainQualifiedName');
-define('ZBX_SAML_NAMEID_PROVIDER',     'urn:oasis:names:tc:SAML:2.0:nameid-format:provider');
-define('ZBX_SAML_NAMEID_FEDERATED',    'urn:oasis:names:tc:SAML:2.0:nameid-format:federated');
-define('ZBX_SAML_NAMEID_TRANSIENT',    'urn:oasis:names:tc:SAML:2.0:nameid-format:transient');
 
 define('ZBX_DB_DB2',		'IBM_DB2');
 define('ZBX_DB_MYSQL',		'MYSQL');
@@ -859,7 +847,7 @@ define('GROUP_GUI_ACCESS_SYSTEM',	0);
 define('GROUP_GUI_ACCESS_INTERNAL', 1);
 define('GROUP_GUI_ACCESS_LDAP', 	2);
 define('GROUP_GUI_ACCESS_DISABLED', 3);
-define('GROUP_GUI_ACCESS_SAML',     4);
+
 
 /**
  * @see access_deny()
@@ -1795,3 +1783,21 @@ define('PROBLEMS_TAG_NAME_NONE',      2);
  *  - null - disable X-Frame-options header.
  */
 define('X_FRAME_OPTIONS', 'SAMEORIGIN');
+
+// Zabbix Frontend Enhanced Defines
+define('ZBX_AUTH_SAML',     2);
+define('ZBX_AUTH_SAML_DISABLED',    0);
+define('ZBX_AUTH_SAML_ENABLED',     1);
+define('ZBX_AUTH_FORM_SAML',    2);
+define('GROUP_GUI_ACCESS_SAML',     4);
+
+define('ZBX_SAML_NAMEID_UNSPECIFIED',  'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified');
+define('ZBX_SAML_NAMEID_EMAILADDRESS', 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress');
+define('ZBX_SAML_NAMEID_X509SUBJECT',  'urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName');
+define('ZBX_SAML_NAMEID_WINDOWS',      'urn:oasis:names:tc:SAML:1.1:nameid-format:WindowsDomainQualifiedName');
+define('ZBX_SAML_NAMEID_PROVIDER',     'urn:oasis:names:tc:SAML:2.0:nameid-format:provider');
+define('ZBX_SAML_NAMEID_FEDERATED',    'urn:oasis:names:tc:SAML:2.0:nameid-format:federated');
+define('ZBX_SAML_NAMEID_TRANSIENT',    'urn:oasis:names:tc:SAML:2.0:nameid-format:transient');
+
+define('ZFE_STYLE_CODE_EDITOR', 'zfe-code-editor');
+define('ZFE_STYLE_CODE_EDITOR_MSG', 'zfe-code-editor-msg');

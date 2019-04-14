@@ -97,6 +97,13 @@ $availableJScripts = [
 	'sysmap.tpl.js' => 'templates/',
 	// page-specific scripts
 	'items.js' => 'pages/',
+    // language parser grammars
+    'trigger.js' => 'grammars/',
+    'zfe-tracer.js' => 'grammars/',
+    'zabbix-default-items.js' => 'grammars/',
+    // zfe specific classes
+    'class.zfesuggest.js' => '',
+    'class.zfecodeeditor.js' => '',
 ];
 
 $tranStrings = [

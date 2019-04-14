@@ -111,15 +111,21 @@ if ($data['groupid'] && $data['hostid']) {
 	$popup_options['groupid'] = $data['groupid'];
 	$popup_options['hostid'] = $data['hostid'];
 }
-
-$expression_row = [
-	(new CTextArea(
-		$data['expression_field_name'],
+/*
+ * 		$data['expression_field_name'],
 		$data['expression_field_value'],
 		['readonly' => $data['expression_field_readonly']]
-	))
+ */
+$expression_row = [
+	(new CDiv())
+        ->setAttribute('contentEditable', 'true')
+        ->setId('trigger-editor')
 		->setWidth(ZBX_TEXTAREA_STANDARD_WIDTH)
+        ->addClass(ZFE_STYLE_CODE_EDITOR)
 		->setAriaRequired(),
+    (new CDiv())
+        ->setWidth(ZBX_TEXTAREA_STANDARD_WIDTH)
+        ->addClass(ZFE_STYLE_CODE_EDITOR_MSG),
 	(new CDiv())->addClass(ZBX_STYLE_FORM_INPUT_MARGIN),
 	(new CButton('insert', ($data['expression_constructor'] == IM_TREE) ? _('Edit') : _('Add')))
 		->addClass(ZBX_STYLE_BTN_GREY)
